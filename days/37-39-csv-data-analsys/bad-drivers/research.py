@@ -4,17 +4,18 @@ from collections import namedtuple
 from typing import List
 
 Record = namedtuple(
-            'Record',
-            'state,drivers_fatal_collisions,drivers_speeding,drivers_alcohol_impaired,'
-            'drivers_not_distracted,drivers_first_collision,car_insurance,insurance_company_losses'
-        )
+    'Record',
+    'state,drivers_fatal_collisions,drivers_speeding,drivers_alcohol_impaired,'
+    'drivers_not_distracted,drivers_first_collision,car_insurance,insurance_company_losses'
+)
 
 class BadDriversResearch:
 
     def __init__(self):
         self.__data = []
+        self.__load_file()
 
-
+    def __load_file(self):
         base_folder = os.path.dirname(__file__)
         data_file = os.path.join(base_folder, 'bad-drivers.csv')
 
@@ -36,10 +37,6 @@ class BadDriversResearch:
 
         record = Record( **row )
         return record
-
-    def get_states(self) -> List[str]:
-        for data in self.__data:
-            yield data.state
 
     def sort_states_by_died_drivers(self) -> List[Record]:
         return sorted(self.__data, key=lambda r: r.drivers_fatal_collisions, reverse=True)
